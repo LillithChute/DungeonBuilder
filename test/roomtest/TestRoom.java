@@ -1,17 +1,16 @@
 package roomtest;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import room.Room;
-import room.RoomDesign;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import org.junit.Before;
+import org.junit.Test;
+import room.Room;
+import room.RoomDesign;
 
 /**
  * This will test the functionality of the room class.
@@ -20,6 +19,9 @@ public class TestRoom {
   private RoomDesign room;
   private String emptyRoom;
 
+  /**
+   * Create an empty room display.
+   */
   @Before
   public void setup() {
     room = new Room(new int[]{2, 3});
@@ -46,7 +48,9 @@ public class TestRoom {
 
   @Test
   public void visitedRoomDisplayTest() {
-    assertEquals(emptyRoom, room.visitedRoomDisplay());
+    assertEquals("     \n"
+            + "     \n"
+            + "     ", room.visitedRoomDisplay());
     room.roomHasBeenVisited();
     assertEquals(emptyRoom, room.visitedRoomDisplay());
   }
@@ -92,157 +96,114 @@ public class TestRoom {
     assertEquals(20, room.getGoldInTheRoom());
   }
 
-//  @Test
-//  public void getUp() {
-//    assertNull(room.findRoomAbove());
-//    RoomDesign newRoom = new Room(new int[]{1, 3});
-//    room.set(newRoom);
-//    assertArrayEquals(new int[]{1, 3}, room.getUp().getLocation());
-//  }
-//
-//  @Test
-//  public void getDown() {
-//    assertNull(room.getDown());
-//    Room newRoom = new Room(new int[]{3, 3});
-//    room.setDown(newRoom);
-//    assertArrayEquals(new int[]{3, 3}, room.getDown().getLocation());
-//  }
-//
-//  @Test
-//  public void getLeft() {
-//    assertNull(room.getLeft());
-//    Room newRoom = new Room(new int[]{2, 2});
-//    room.setLeft(newRoom);
-//    assertArrayEquals(new int[]{2, 2}, room.getLeft().getLocation());
-//  }
-//
-//  @Test
-//  public void getRight() {
-//    assertNull(room.getRight());
-//    Room newRoom = new Room(new int[]{2, 4});
-//    room.setRight(newRoom);
-//    assertArrayEquals(new int[]{2, 4}, room.getRight().getLocation());
-//  }
-//
   @Test
-  public void getThief() {
+  public void findAndTagRoomAboveTest() {
+    assertNull(room.findRoomAbove());
+    RoomDesign newRoom = new Room(new int[]{1, 3});
+    room.tagRoomAbove(newRoom);
+    assertArrayEquals(new int[]{1, 3}, room.findRoomAbove().getRoomLocation());
+  }
+
+  @Test
+  public void findAndTagRoomBelowTest() {
+    assertNull(room.findRoomBelow());
+    RoomDesign newRoom = new Room(new int[]{3, 3});
+    room.tagRoomBelow(newRoom);
+    assertArrayEquals(new int[]{3, 3}, room.findRoomBelow().getRoomLocation());
+  }
+
+  @Test
+  public void findAndTagRoomToTheLeftTest() {
+    assertNull(room.findRoomToTheLeft());
+    RoomDesign newRoom = new Room(new int[]{2, 2});
+    room.tagRoomToTheLeft(newRoom);
+    assertArrayEquals(new int[]{2, 2}, room.findRoomToTheLeft().getRoomLocation());
+  }
+
+  @Test
+  public void findAndTagRoomToTheRightTest() {
+    assertNull(room.findRoomToTheRight());
+    RoomDesign newRoom = new Room(new int[]{2, 4});
+    room.tagRoomToTheRight(newRoom);
+    assertArrayEquals(new int[]{2, 4}, room.findRoomToTheRight().getRoomLocation());
+  }
+
+  @Test
+  public void isThiefInTheRoomTest() {
     assertFalse(room.isThiefInTheRoom());
     room.putThiefInTheRoom();
     assertTrue(room.isThiefInTheRoom());
   }
 
-//  @Test
-//  public void getIdentifier() {
-//    assertEquals(0, room.getIdentifier());
-//    room.setIdentifier(1);
-//    assertEquals(1, room.getIdentifier());
-//  }
-//
-//  @Test
-//  public void setIdentifier() {
-//    assertEquals(0, room.getIdentifier());
-//    room.setIdentifier(1);
-//    assertEquals(1, room.getIdentifier());
-//  }
-//
-//  @Test
-//  public void clearGold() {
-//    assertEquals(0, room.getGoldInTheRoomTest());
-//    room.setGold(10);
-//    assertEquals(10, room.getGoldInTheRoomTest());
-//    room.clearGold();
-//    assertEquals(0, room.getGoldInTheRoomTest());
-//  }
-//
-//  @Test
-//  public void setUp() {
-//    assertNull(room.getUp());
-//    Room newRoom = new Room(new int[]{1, 3});
-//    room.setUp(newRoom);
-//    assertArrayEquals(new int[]{1, 3}, room.getUp().getLocation());
-//  }
-//
-//  @Test
-//  public void setDown() {
-//    assertNull(room.getDown());
-//    Room newRoom = new Room(new int[]{3, 3});
-//    room.setDown(newRoom);
-//    assertArrayEquals(new int[]{3, 3}, room.getDown().getLocation());
-//  }
-//
-//  @Test
-//  public void setLeft() {
-//    assertNull(room.getLeft());
-//    Room newRoom = new Room(new int[]{2, 2});
-//    room.setLeft(newRoom);
-//    assertArrayEquals(new int[]{2, 2}, room.getLeft().getLocation());
-//  }
-//
-//  @Test
-//  public void setRight() {
-//    assertNull(room.getRight());
-//    Room newRoom = new Room(new int[]{2, 4});
-//    room.setRight(newRoom);
-//    assertArrayEquals(new int[]{2, 4}, room.getRight().getLocation());
-//  }
-//
-//  @Test
-//  public void getOptions() {
-//    Room up = new Room(new int[]{1, 3});
-//    Room right = new Room(new int[]{2, 4});
-//    room.setUp(up);
-//    room.setRight(right);
-//    ArrayList<String> expect = new ArrayList<>();
-//    expect.add("up");
-//    expect.add("right");
-//    assertEquals(expect, room.getOptions());
-//  }
-//
-//  @Test
-//  public void showThief() {
-//    assertEquals("UUUUU\n"
-//            + "U   U\n"
-//            + "UUUUU", room.showThief());
-//    room.setThief();
-//    assertEquals("UUUUU\n"
-//            + "U T U\n"
-//            + "UUUUU", room.showThief());
-//  }
-//
-//  @Test
-//  public void showGold() {
-//    assertEquals("UUUUU\n"
-//            + "U   U\n"
-//            + "UUUUU", room.showGold());
-//    room.setGold(5);
-//    assertEquals("UUUUU\n"
-//            + "U 5 U\n"
-//            + "UUUUU", room.showGold());
-//  }
-//
-//  @Test
-//  public void touchString() {
-//    assertEquals("     \n"
-//            + "     \n"
-//            + "     ", room.touchString());
-//    room.setTouched();
-//    assertEquals("UUUUU\n"
-//            + "U   U\n"
-//            + "UUUUU", room.touchString());
-//  }
-//
-//  @Test
-//  public void testToString() {
-//    assertEquals("UUUUU\n"
-//            + "U   U\n"
-//            + "UUUUU", room.toString());
-//    room.setGold(5);
-//    assertEquals("UUUUU\n"
-//            + "U 5 U\n"
-//            + "UUUUU", room.toString());
-//    room.setThief();
-//    assertEquals("UUUUU\n"
-//            + "U5 TU\n"
-//            + "UUUUU", room.toString());
-//  }
+  @Test
+  public void getAndSetRoomIdTest() {
+    assertEquals(0, room.getRoomId());
+    room.setRoomId(1);
+    assertEquals(1, room.getRoomId());
+  }
+
+  @Test
+  public void removeGoldInRoomTest() {
+    assertEquals(0, room.getGoldInTheRoom());
+    room.setGoldAmount(20);
+    assertEquals(20, room.getGoldInTheRoom());
+    room.removeGoldInRoom();
+    assertEquals(0, room.getGoldInTheRoom());
+  }
+
+  @Test
+  public void movementOptionsTest() {
+    RoomDesign above = new Room(new int[]{1, 3});
+    RoomDesign right = new Room(new int[]{2, 4});
+
+    room.tagRoomAbove(above);
+    room.tagRoomToTheRight(right);
+
+    ArrayList<String> expectedMovementOptions = new ArrayList<>();
+
+    expectedMovementOptions.add("up");
+    expectedMovementOptions.add("right");
+
+    assertEquals(expectedMovementOptions, room.movementOptions());
+  }
+
+  @Test
+  public void displayThiefTest() {
+    assertEquals(emptyRoom, room.displayThief());
+    room.putThiefInTheRoom();
+    assertEquals("-----\n"
+            + "| T |\n"
+            + "-----", room.displayThief());
+  }
+
+  @Test
+  public void displayGoldTest() {
+    assertEquals(emptyRoom, room.displayGold());
+    room.setGoldAmount(10);
+    assertEquals("-----\n"
+            + "| 10 |\n"
+            + "-----", room.displayGold());
+  }
+
+  @Test
+  public void touchString() {
+    assertEquals("     \n"
+            + "     \n"
+            + "     ", room.toggleRoomVisibility());
+    room.roomHasBeenVisited();
+    assertEquals(emptyRoom, room.toggleRoomVisibility());
+  }
+
+  @Test
+  public void testToString() {
+    assertEquals(emptyRoom, room.toString());
+    room.setGoldAmount(10);
+    assertEquals("-----\n"
+            + "| 10 |\n"
+            + "-----", room.toString());
+    room.putThiefInTheRoom();
+    assertEquals("-----\n"
+            + "|10 T|\n"
+            + "-----", room.toString());
+  }
 }

@@ -10,10 +10,16 @@ public class Room implements RoomDesign {
   private final int[] location;
   private int gold;
   private boolean thief;
+  private int roomId = 0;
   private boolean exitRoom = false;
   private boolean adventurer = false;
   private boolean visited = false;
 
+  /**
+   * This is an implementation of a single room, to include gold, thief, walls, and goals.
+   *
+   * @param location Set the coordinates of the room.
+   */
   public Room(int[] location) {
     // Make sure no clever person tries to create an antimatter room.
     if (location[0] < 0 || location[1] < 0) {
@@ -61,9 +67,14 @@ public class Room implements RoomDesign {
   }
 
   @Override
+  public void tagRoomAbove(RoomDesign roomAbove) {
+    this.roomAbove = roomAbove;
+  }
+
+  @Override
   public void setGoldAmount(int goldAmount) {
     if (goldAmount < 0) {
-      throw new IllegalArgumentException("AMount of gold must be greater than zero.");
+      throw new IllegalArgumentException("Amount of gold must be greater than zero.");
     }
 
     this.gold = goldAmount;
@@ -75,8 +86,18 @@ public class Room implements RoomDesign {
   }
 
   @Override
+  public void tagRoomBelow(RoomDesign roomBelow) {
+    this.roomBelow = roomBelow;
+  }
+
+  @Override
   public RoomDesign findRoomBelow() {
     return this.roomBelow;
+  }
+
+  @Override
+  public void tagRoomToTheLeft(RoomDesign roomLeft) {
+    this.leftRoom = roomLeft;
   }
 
   @Override
@@ -85,8 +106,28 @@ public class Room implements RoomDesign {
   }
 
   @Override
+  public void tagRoomToTheRight(RoomDesign roomRight) {
+    this.rightRoom = roomRight;
+
+  }
+
+  @Override
   public RoomDesign findRoomToTheRight() {
     return this.rightRoom;
+  }
+
+  @Override
+  public int getRoomId() {
+    return this.roomId;
+  }
+
+  @Override
+  public void setRoomId(int roomId) {
+    if (roomId < 0) {
+      throw new IllegalArgumentException("Room ID can't be less than zero.");
+    }
+
+    this.roomId = roomId;
   }
 
   @Override
@@ -126,17 +167,105 @@ public class Room implements RoomDesign {
 
   @Override
   public String displayThief() {
-    return null;
+    String result = "";
+
+    // This is a wall
+    result = checkForWallAbove(result);
+
+    // Check the left side.
+    if (this.leftRoom == null) {
+
+      // Is there a thief
+      if (this.thief) {
+        result += String.format("| T ", this.getGoldInTheRoom());
+      } else {
+        result += "|   ";
+      }
+    } else {
+      if (this.thief) {
+        result += String.format("  T ", this.getGoldInTheRoom());
+      } else {
+        result += "    ";
+      }
+    }
+
+    // Check the right side
+    if (this.rightRoom == null) {
+      result += "|\n";
+    } else {
+      result += " \n";
+    }
+
+    // Check room below
+    if (this.roomBelow == null) {
+      result += "-----";
+    } else {
+      result += "|   |";
+    }
+
+    return result;
+  }
+
+  private String checkForWallAbove(String result) {
+    if (this.roomAbove == null) {
+      result += "-----\n";
+    } else {
+      result += "|   |\n";
+    }
+    return result;
   }
 
   @Override
   public String displayGold() {
-    return null;
+    String result = "";
+
+    // Check for the wall above.
+    if (this.roomAbove == null) {
+      result += "-----\n";
+    } else {
+      result += "|   |\n";
+    }
+
+    // Check left
+    if (this.leftRoom == null) {
+
+      // Is there gold here
+      if (this.gold != 0) {
+        result += String.format("| %d ", this.getGoldInTheRoom());
+      } else {
+        result += "|   ";
+      }
+    } else {
+      if (this.gold != 0) {
+        result += String.format("  %d ", this.getGoldInTheRoom());
+      } else {
+        result += "    ";
+      }
+    }
+
+    // Check the right
+    if (this.rightRoom == null) {
+      result += "|\n";
+    } else {
+      result += " \n";
+    }
+
+    if (this.roomBelow == null) {
+      result += "-----";
+    } else {
+      result += "|   |";
+    }
+
+    return result;
   }
 
   @Override
-  public String visitedRoom() {
-    return null;
+  public String toggleRoomVisibility() {
+    if (!this.visited) {
+      return "     \n     \n     ";
+    } else {
+      return this.toString();
+    }
   }
 
   @Override

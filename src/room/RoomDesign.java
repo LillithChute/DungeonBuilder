@@ -42,11 +42,26 @@ public interface RoomDesign {
   int getGoldInTheRoom();
 
   /**
+   * Set's the room above the current room.
+   *
+   * @param roomAbove The room being assigned
+   */
+  void tagRoomAbove(RoomDesign roomAbove);
+
+
+  /**
    * Get's the room above the current room.
    *
    * @return The room above this one.
    */
   RoomDesign findRoomAbove();
+
+  /**
+   * Set's the room below the current room.
+   *
+   * @param roomBelow The room being assigned.
+   */
+  void tagRoomBelow(RoomDesign roomBelow);
 
   /**
    * Get's the room below the current room.
@@ -56,6 +71,13 @@ public interface RoomDesign {
   RoomDesign findRoomBelow();
 
   /**
+   * Set's the room to the left of the current room.
+   *
+   * @param roomLeft The room being assigned.
+   */
+  void tagRoomToTheLeft(RoomDesign roomLeft);
+
+  /**
    * Get's the room to the left of the current room.
    *
    * @return The room to the left of this one.
@@ -63,11 +85,33 @@ public interface RoomDesign {
   RoomDesign findRoomToTheLeft();
 
   /**
+   * Set's the room to the left of the current room.
+   *
+   * @param roomRight The room being assigned.
+   */
+  void tagRoomToTheRight(RoomDesign roomRight);
+
+  /**
    * Get's the room to the right of the current room.
    *
    * @return The room to the right of this one.
    */
   RoomDesign findRoomToTheRight();
+
+  /**
+   * Gets the room ID. This is used to track the individual rooms in the maze.  This required for
+   * generation of the dungeon.
+   *
+   * @return the identifier of this maze {@link Room}
+   */
+  int getRoomId();
+
+  /**
+   * Sets the room ID.
+   *
+   * @param roomId The room ID.
+   */
+  void setRoomId(int roomId);
 
   /**
    * Checks if there is a thief in the room.
@@ -119,7 +163,7 @@ public interface RoomDesign {
    *
    * @return A display of where the adventurer has been.
    */
-  String visitedRoom();
+  String toggleRoomVisibility();
 
   /**
    * Prints this {@link Room} in a "Hard Mode": visible only after the adventurer travels this
