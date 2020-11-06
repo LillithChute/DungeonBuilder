@@ -184,7 +184,7 @@ public class Dungeon implements DungeonDesign {
     int numberOfRows = this.dungeon.length;
     int numberOfColumns = this.dungeon[0].length;
 
-    return ViewDungeon.visualizer(numberOfRows, numberOfColumns, dungeon);
+    return ViewDungeon.buildAndDisplayDungeon(numberOfRows, numberOfColumns, dungeon);
   }
 
 }

@@ -114,33 +114,12 @@ public class TestDungeon {
             + "    0    1    \n", testDungeon.toString());
   }
 
-//  @Test
-//  public void touchString() {
-//    assertEquals("    0    1    \n"
-//            + "       UUUUU  \n"
-//            + "0       ***U 0\n"
-//            + "       UUUUU  \n"
-//            + "              \n"
-//            + "1            1\n"
-//            + "              \n"
-//            + "    0    1    \n", testDungeon.touchString());
-//    testDungeon.playerMove("left");
-//    assertEquals("    0    1    \n"
-//            + "  UUUUUUUUUU  \n"
-//            + "0 U***     U 0\n"
-//            + "  U   UUUUUU  \n"
-//            + "              \n"
-//            + "1            1\n"
-//            + "              \n"
-//            + "    0    1    \n", testDungeon.touchString());
-//  }
-//
-//  @Test
-//  public void isFinished() {
-//    assertFalse(testDungeon.isFinished());
-//    testDungeon.playerMove("left");
-//    testDungeon.playerMove("down");
-//    testDungeon.playerMove("right");
-//    assertTrue(testDungeon.isFinished());
-//  }
+  @Test
+  public void dungeonCompletedTest() {
+    assertFalse(testDungeon.dungeonCompleted());
+    testDungeon.makeAdventurerMove("left");
+    testDungeon.makeAdventurerMove("down");
+    testDungeon.makeAdventurerMove("right");
+    assertTrue(testDungeon.dungeonCompleted());
+  }
 }
